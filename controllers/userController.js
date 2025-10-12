@@ -1,30 +1,40 @@
 const User = require("../models/userModel");
 
-// ➕ إنشاء مستخدم جديد
-const createUser = async (req, res) => {
+// إنشاء مستخدم جديد
+const registerUser = async (req, res) => {
   try {
-    const { name, email, age } = req.body;
+    const { name, email, password } = req.body;
 
-    const newUser = new User({ name, email, age });
+    // تحقق من الحقول
+    if (!name || !email || !password) {
+      return res.status(400).json({ message: "All fields are required" });
+    }
+
+    // تحقق واش الإيميل موجود من قبل
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
+      return res.status(400).json({ message: "Email already registered" });
+    }
+
+    const newUser = new User({ name, email, password });
     await newUser.save();
 
     res.status(201).json({
-      message: "✅ User created successfully!",
+      message: "✅ User Registered Successfully!",
       user: newUser,
     });
   } catch (error) {
-    res.status(500).json({
-      message: "❌ Error creating user",
-      error: error.message,
-    });
+    res
+      .status(500)
+      .json({ message: "❌ Error registering user", error: error.message });
   }
 };
 
-// 📋 عرض جميع المستخدمين
-const getUsers = async (req, res) => {
+// عرض جميع المستخدمين
+const getAllUsers = async (req, res) => {
   try {
     const users = await User.find();
-    res.status(200).json(users);
+    res.status(200).json({ count: users.length, users });
   } catch (error) {
     res
       .status(500)
@@ -46,4 +56,4 @@ const deleteUser = async (req, res) => {
   }
 };
 
-module.exports = { createUser, getUsers, deleteUser };
+module.exports = { registerUser, getAllUsers, deleteUser };

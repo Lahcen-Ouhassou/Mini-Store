@@ -14,7 +14,7 @@ app.use(express.json());
 app.get("/", (req, res) => res.send("Server & MongoDB are Running ✅"));
 
 const userRouter = require("./routes/userRoutes");
-app.use("/api/users", userRouter);
+app.use("/api/v1/users", userRouter);
 
 const productRouter = require("./routes/productRoutes");
 app.use("/api/v1/products", productRouter);
