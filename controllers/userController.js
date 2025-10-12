@@ -34,36 +34,48 @@ const getAllUsers = async (req, res) => {
   res.json(users);
 };
 
-// ✅ Login User
+// دالة مساعدة لتوليد Token
+const generateToken = (id) => {
+  return jwt.sign({ id }, process.env.JWT_SECRET, {
+    expiresIn: "1d", // التوكن صالح لمدة يوم
+  });
+};
+
+// تسجيل الدخول
 const loginUser = async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    // Check user exists
+    // 1. نلقاو المستخدم بالإيميل
     const user = await User.findOne({ email });
-    if (!user) return res.status(400).json({ message: "User not found" });
+    if (!user) {
+      return res.status(400).json({ message: "User not found" });
+    }
 
-    // Compare password
+    // 2. نتحقق من كلمة السر
     const isMatch = await bcrypt.compare(password, user.password);
-    if (!isMatch) return res.status(400).json({ message: "Invalid password" });
+    if (!isMatch) {
+      return res.status(400).json({ message: "Invalid password" });
+    }
 
-    // Generate Token
-    const token = jwt.sign({ id: user._id }, "MY_SECRET_KEY", {
-      expiresIn: "1h",
-    });
+    // 3. توليد Token
+    const token = generateToken(user._id);
 
-    res.json({
+    // 4. نرجعو البيانات + token
+    res.status(200).json({
       message: "Login successful",
-      token,
       user: {
+        id: user._id,
         name: user.name,
         email: user.email,
       },
+      token,
     });
   } catch (error) {
-    res.status(500).json({ message: "Error logging in", error });
+    res.status(500).json({ message: "Server error", error: error.message });
   }
 };
+
 
 // Delete User
 const deleteUser = async (req, res) => {
