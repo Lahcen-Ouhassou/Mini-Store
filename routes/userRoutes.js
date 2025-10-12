@@ -1,26 +1,18 @@
 const express = require("express");
 const router = express.Router();
-const User = require("../models/User");
+const {
+  createUser,
+  getUsers,
+  deleteUser,
+} = require("../controllers/userController");
 
-router.post("/", async (req, res) => {
-  try {
-    const { name, email, age } = req.body;
+// ➕ إضافة مستخدم
+router.post("/", createUser);
 
-    const newUser = new User({
-      name,
-      email,
-      age,
-    });
+// 📋 عرض جميع المستخدمين
+router.get("/", getUsers);
 
-    await newUser.save();
-    res
-      .status(201)
-      .json({ message: "✅ User created successfully!", user: newUser });
-  } catch (error) {
-    res
-      .status(500)
-      .json({ message: "❌ Error creating user", error: error.message });
-  }
-});
+// 🗑️ حذف مستخدم
+router.delete("/:id", deleteUser);
 
 module.exports = router;
