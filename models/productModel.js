@@ -23,7 +23,6 @@ const productSchema = new mongoose.Schema({
   },
 });
 
-// كنصاوبو الموديل باش نقدر نستخدمو ف controller
+// كنصاوبو الموديل باش نقدر نستخدمو ف controller hna fin ky3rf mongoDB compass smiya d collection ** (دائماً Mongoose كيحول الاسم لـ جمع plural)
 const Product = mongoose.model("Product", productSchema);
-
 module.exports = Product;
