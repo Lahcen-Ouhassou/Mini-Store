@@ -76,7 +76,6 @@ const loginUser = async (req, res) => {
   }
 };
 
-
 // Delete User
 const deleteUser = async (req, res) => {
   try {
