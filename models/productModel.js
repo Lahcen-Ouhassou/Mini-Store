@@ -9,6 +9,10 @@ const productSchema = new mongoose.Schema({
     type: Number,
     required: [true, "Product price is required"],
   },
+  description: {
+    type: String,
+    default: "No description provided",
+  },
   category: {
     type: String,
     default: "General",
@@ -21,7 +25,9 @@ const productSchema = new mongoose.Schema({
     type: Boolean,
     default: true,
   },
-});
+},
+  { timestamps: true } // timestamps kayzid "createdAt" w "updatedAt"
+);
 
 // كنصاوبو الموديل باش نقدر نستخدمو ف controller hna fin ky3rf mongoDB compass smiya d collection ** (دائماً Mongoose كيحول الاسم لـ جمع plural)
 const Product = mongoose.model("Product", productSchema);

@@ -17,7 +17,7 @@ const userRouter = require("./routes/userRoutes");
 app.use("/api/users", userRouter);
 
 const productRouter = require("./routes/productRoutes");
-app.use("/api/products", productRouter);
+app.use("/api/v1/products", productRouter);
 
 const PORT = 5000;
 app.listen(PORT, () => {
