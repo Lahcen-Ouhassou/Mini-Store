@@ -20,7 +20,7 @@ const productSchema = new mongoose.Schema(
       default: "General",
     },
     stock: {
-     
+      type: Number,
       default: 0,
       min: [0, "Stock cannot be negative"],
     },
