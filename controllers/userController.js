@@ -27,7 +27,7 @@ const createUser = async (req, res) => {
     res.status(500).json({ message: "Error creating user", error });
   }
 };
-
+ 
 // Get all users
 const getAllUsers = async (req, res) => {
   const users = await User.find();
