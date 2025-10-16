@@ -27,7 +27,7 @@ const createUser = async (req, res) => {
     res.status(500).json({ message: "Error creating user", error });
   }
 };
- 
+
 // Get all users
 const getAllUsers = async (req, res) => {
   const users = await User.find();
@@ -37,6 +37,7 @@ const getAllUsers = async (req, res) => {
 // دالة مساعدة لتوليد Token
 const generateToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, {
+    // jwt.sign() كتصاوب توكن جديد   , process.env.JWT_SECRET → السر اللي كيتستعمل لتشفير التوكن (مكتوب فـ .env).
     expiresIn: "1d", // التوكن صالح لمدة يوم
   });
 };
@@ -53,13 +54,13 @@ const loginUser = async (req, res) => {
     }
 
     // 2. نتحقق من كلمة السر
-    const isMatch = await bcrypt.compare(password, user.password);
+    const isMatch = await bcrypt.compare(password, user.password); // كتقارن الباسوورد اللي دخل المستخدم مع الباسوورد المشفّر المخزّن فـ قاعدة البيانات.
     if (!isMatch) {
       return res.status(400).json({ message: "Invalid password" });
     }
 
     // 3. توليد Token
-    const token = generateToken(user._id);
+    const token = generateToken(user._id); // هنا كنستعمل الدالة اللي درناها من قبل generateToken() باش نصاوب للمستخدم توكن جديد فيه الـ ID ديالو.
 
     // 4. نرجعو البيانات + token
     res.status(200).json({
@@ -69,7 +70,7 @@ const loginUser = async (req, res) => {
         name: user.name,
         email: user.email,
       },
-      token, 
+      token,
     });
   } catch (error) {
     res.status(500).json({ message: "Server error", error: error.message });
