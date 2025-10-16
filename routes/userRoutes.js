@@ -6,11 +6,12 @@ const {
   loginUser,
   deleteUser,
 } = require("../controllers/userController");
+const protect = require("../middleware/authMiddleware"); // ⬅️ استوردنا middleware
 
-
-router.post("/register", createUser);
-router.get("/", getAllUsers);
 router.post("/login", loginUser);
-router.delete("/:id", deleteUser);
+router.post("/register", createUser);
+router.get("/", protect, getAllUsers); // ⬅️ هنا زدنا middleware
+
+router.delete("/:id", protect, deleteUser);
 
 module.exports = router;
