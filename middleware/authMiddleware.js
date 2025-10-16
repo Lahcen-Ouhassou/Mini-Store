@@ -12,7 +12,7 @@ const protect = async (req, res, next) => {
       req.headers.authorization.startsWith("Bearer")
     ) {
       // نأخذ التوكن من الـ header
-      token = req.headers.authorization.split(" ")[1];
+      token = req.headers.authorization.split(" ")[1]; //نقطع Bearer وناخذ token فقط
 
       // نتحقق من التوكن باستعمال السر JWT_SECRET
       const decoded = jwt.verify(token, process.env.JWT_SECRET);
