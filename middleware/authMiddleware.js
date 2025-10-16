@@ -8,7 +8,7 @@ const protect = async (req, res, next) => {
 
     // نتحقق واش كاين Authorization header وكيبدأ بـ "Bearer"
     if (
-      req.headers.authorization &&
+      req.headers.authorization && 
       req.headers.authorization.startsWith("Bearer")
     ) {
       // نأخذ التوكن من الـ header
