@@ -5,26 +5,28 @@ const User = require("../models/userModel");
 // Create User (register)
 const createUser = async (req, res) => {
   try {
-    const { name, email, password } = req.body;
+    const { name, email, password, role } = req.body;
 
-    // Check if user already exists
+    // تحقق إذا كان المستخدم كاين
     const existingUser = await User.findOne({ email });
     if (existingUser) {
       return res.status(400).json({ message: "User already exists" });
     }
-    // Hash password
+
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    // Create new user
-    const user = await User.create({
+    const newUser = await User.create({
       name,
       email,
       password: hashedPassword,
+      role: role || "user", // الافتراضي user
     });
 
-    res.status(201).json({ message: "User created successfully", user });
+    res
+      .status(201)
+      .json({ message: "User created successfully", user: newUser });
   } catch (error) {
-    res.status(500).json({ message: "Error creating user", error });
+    res.status(500).json({ message: "Server error", error: error.message });
   }
 };
 

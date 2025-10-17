@@ -1,29 +1,30 @@
 const mongoose = require("mongoose");
 
-// 1️⃣ نعرف الشكل (schema) user
 const userSchema = new mongoose.Schema(
   {
     name: {
       type: String,
-      required: [true, "Name is required"],
+      required: [true, "Please add a name"],
     },
     email: {
       type: String,
-      required: [true, "Email is required"],
+      required: [true, "Please add an email"],
       unique: true,
-      match: [/^\S+@\S+\.\S+$/, "Please use a valid email address"],
     },
     password: {
       type: String,
-      required: [true, "Password is required"],
-      minlength: 6,
+      required: [true, "Please add a password"],
+    },
+    // 🟢 الدور (admin أو user)
+    role: {
+      type: String,
+      enum: ["admin", "user"],
+      default: "user", // أي مستخدم جديد كيكون user
     },
   },
   { timestamps: true }
 );
 
-// 2️⃣ نصاوب model باستعمال هاد schema
-const User = mongoose.model("User", userSchema);
 
-// 3️⃣ نصدره باش نستعملوه فملفات أخرى
-module.exports = User;
+// نصاوب model باستعمال هاد schema // نصدره باش نستعملوه فملفات أخرى
+module.exports = mongoose.model("User", userSchema);
