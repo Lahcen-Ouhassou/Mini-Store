@@ -6,14 +6,15 @@ const {
   loginUser,
   deleteUser,
 } = require("../controllers/userController");
-const protect = require("../middleware/authMiddleware"); // ⬅️ استوردنا middleware
+
+// ✅ الاستيراد الصحيح
+const { protect, adminOnly } = require("../middleware/authMiddleware");
 
 router.post("/login", loginUser);
 router.post("/register", createUser);
 
-// Routes محمية بـ middleware
-router.get("/", protect, getAllUsers); // ⬅️ هنا زدنا middleware
-router.delete("/:id", protect, deleteUser);
+// ✅ غير admin يقدر يشوف أو يمسح
+router.get("/", protect, adminOnly, getAllUsers);
+router.delete("/:id", protect, adminOnly, deleteUser);
 
 module.exports = router;
- 

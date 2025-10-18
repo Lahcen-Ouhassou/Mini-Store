@@ -1,35 +1,29 @@
 const jwt = require("jsonwebtoken");
 const User = require("../models/userModel");
 
-// Middleware للتحقق من JWT
 const protect = async (req, res, next) => {
-  try {
-    let token;
+  let token;
 
-    // نتحقق واش كاين Authorization header وكيبدأ بـ "Bearer"
-    if (
-      req.headers.authorization && 
-      req.headers.authorization.startsWith("Bearer")
-    ) {
-      // نأخذ التوكن من الـ header
-      token = req.headers.authorization.split(" ")[1]; //نقطع Bearer وناخذ token فقط
-
-      // نتحقق من التوكن باستعمال السر JWT_SECRET
+  if (
+    req.headers.authorization &&
+    req.headers.authorization.startsWith("Bearer")
+  ) {
+    try {
+      token = req.headers.authorization.split(" ")[1];
       const decoded = jwt.verify(token, process.env.JWT_SECRET);
-
-      // نلقاو المستخدم ديال داك التوكن
       req.user = await User.findById(decoded.id).select("-password");
-
-      next(); // نكمل العملية (نكمل للـ route)
-    } else {
-      return res.status(401).json({ message: "Not authorized, no token" });
+      next();
+    } catch (error) {
+      console.error(error);
+      return res.status(401).json({ message: "Not authorized, token failed" });
     }
-  } catch (error) {
-    res.status(401).json({ message: "Invalid token", error: error.message });
+  }
+
+  if (!token) {
+    return res.status(401).json({ message: "Not authorized, no token" });
   }
 };
 
-// 🧱 التحقق واش admin
 const adminOnly = (req, res, next) => {
   if (req.user && req.user.role === "admin") {
     next();
@@ -38,4 +32,4 @@ const adminOnly = (req, res, next) => {
   }
 };
 
-module.exports = protect,adminOnly;
+module.exports = { protect, adminOnly };

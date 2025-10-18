@@ -8,16 +8,15 @@ const {
   deleteProduct,
 } = require("../controllers/productController");
 
-const protect = require("../middleware/authMiddleware");
-const admin = require("../middleware/adminMiddleware");
+const { protect, adminOnly } = require("../middleware/authMiddleware");
 
 // 🟢 users عاديين يقدرو يشوفو فقط
 router.get("/", protect, getAllProducts);
 router.get("/:id", protect, getProductById);
 
 // 🔐 admins فقط يقدرو يديرو CRUD
-router.post("/", protect, admin, createProduct);
-router.put("/:id", protect, admin, updateProduct);
-router.delete("/:id", protect, admin, deleteProduct);
+router.post("/", protect, adminOnly, createProduct);
+router.put("/:id", protect, adminOnly, updateProduct);
+router.delete("/:id", protect, adminOnly, deleteProduct);
 
 module.exports = router;
