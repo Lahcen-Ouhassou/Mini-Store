@@ -37,7 +37,7 @@ const getAllUsers = async (req, res) => {
   res.json({ Count: users.length, users });
 };
 
-// ==================== generateToken  ====================
+// ==================== generate Token  ====================
 
 const generateToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, {
@@ -46,7 +46,7 @@ const generateToken = (id) => {
   });
 };
 
-// تسجيل الدخول
+// ==================== login User  ====================
 const loginUser = async (req, res) => {
   try {
     const { email, password } = req.body;
