@@ -81,7 +81,7 @@ const loginUser = async (req, res) => {
   }
 };
 
-// Delete User
+// ==================== Delete User  ====================
 const deleteUser = async (req, res) => {
   try {
     const userId = req.params.id;
