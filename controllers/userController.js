@@ -30,13 +30,15 @@ const createUser = async (req, res) => {
   }
 };
 
-// Get all users
+// ==================== Get all users  ====================
+
 const getAllUsers = async (req, res) => {
   const users = await User.find();
   res.json({ Count: users.length, users });
 };
 
-// دالة مساعدة لتوليد Token
+// ==================== generateToken  ====================
+
 const generateToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, {
     // jwt.sign() كتصاوب توكن جديد   , process.env.JWT_SECRET → السر اللي كيتستعمل لتشفير التوكن (مكتوب فـ .env).
