@@ -7,8 +7,9 @@ const {
   deleteUser,
   getMyProfile,
   updateMyProfile,
+  forgotPassword,
 } = require("../controllers/userController");
-router.post("/forgot-password", require("../controllers/userController").forgotPassword);
+
 
 
 // ✅ الاستيراد الصحيح
@@ -18,6 +19,7 @@ router.post("/login", loginUser);
 router.post("/register", createUser);
 router.get("/profile", protect, getMyProfile);
 router.put("/updateprofile", protect, updateMyProfile);
+router.post("/forgot-password",forgotPassword)
 
 // ✅ غير admin يقدر يشوف أو يمسح
 router.get("/", protect, adminOnly, getAllUsers);
