@@ -97,4 +97,22 @@ const deleteUser = async (req, res) => {
   }
 };
 
+
+const getMyProfile = async (req, res) => {
+  try {
+    const user = req.user; // 🧠 req.user جاي من protect middleware
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    res.status(200).json({
+      id: user._id,
+      name: user.name,
+      email: user.email,
+      role: user.role,
+    });
+  } catch (error) {
+    res.status(500).json({ message: "Server error", error });
+  }
+};
 module.exports = { createUser, getAllUsers, loginUser, deleteUser };

@@ -5,6 +5,7 @@ const {
   getAllUsers,
   loginUser,
   deleteUser,
+  getMyProfile,
 } = require("../controllers/userController");
 
 // ✅ الاستيراد الصحيح
@@ -12,6 +13,7 @@ const { protect, adminOnly } = require("../middleware/authMiddleware");
 
 router.post("/login", loginUser);
 router.post("/register", createUser);
+router.get("/profile", protect, getMyProfile);
 
 // ✅ غير admin يقدر يشوف أو يمسح
 router.get("/", protect, adminOnly, getAllUsers);
