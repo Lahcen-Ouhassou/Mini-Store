@@ -97,7 +97,7 @@ const deleteUser = async (req, res) => {
   }
 };
 
-
+// ==================== get My Profile  ====================
 const getMyProfile = async (req, res) => {
   try {
     const user = req.user; // 🧠 req.user جاي من protect middleware
@@ -115,4 +115,10 @@ const getMyProfile = async (req, res) => {
     res.status(500).json({ message: "Server error", error });
   }
 };
-module.exports = { createUser, getAllUsers, loginUser, deleteUser };
+module.exports = {
+  createUser,
+  getAllUsers,
+  loginUser,
+  deleteUser,
+  getMyProfile,
+};
