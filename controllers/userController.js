@@ -147,6 +147,58 @@ const updateMyProfile = async (req, res) => {
   }
 };
 
+
+
+// ==================== Forgot Password  ====================
+const forgotPassword = async (req, res) => {
+  const { email } = req.body;
+
+  try {
+    // 1️⃣ كنقلب واش الإيميل كاين فقاعدة البيانات
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(404).json({ message: "User not found with this email" });
+    }
+
+    // 2️⃣ إنشاء توكن مؤقت
+    const resetToken = crypto.randomBytes(20).toString("hex");
+    user.resetPasswordToken = resetToken;
+    user.resetPasswordExpires = Date.now() + 3600000; // صالح لمدة ساعة وحدة
+    await user.save();
+
+    // 3️⃣ إعداد النقل عبر Gmail
+    const transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: process.env.EMAIL_USER, // غادي نديروها ف .env
+        pass: process.env.EMAIL_PASS, // غادي نديروها ف .env
+      },
+    });
+
+    // 4️⃣ إعداد الرسالة
+    const resetURL = `http://localhost:3000/reset-password/${resetToken}`;
+    const mailOptions = {
+      to: user.email,
+      from: process.env.EMAIL_USER,
+      subject: "Password Reset Request",
+      html: `
+        <p>You requested a password reset.</p>
+        <p>Click here to reset your password:</p>
+        <a href="${resetURL}">${resetURL}</a>
+        <p>This link will expire in 1 hour.</p>
+      `,
+    };
+
+    // 5️⃣ إرسال الإيميل
+    await transporter.sendMail(mailOptions);
+
+    res.status(200).json({ message: "Email sent successfully!" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Something went wrong" });
+  }
+};
+
 module.exports = {
   createUser,
   getAllUsers,
@@ -154,4 +206,5 @@ module.exports = {
   deleteUser,
   getMyProfile,
   updateMyProfile,
+  forgotPassword,
 };

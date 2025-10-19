@@ -8,6 +8,8 @@ const {
   getMyProfile,
   updateMyProfile,
 } = require("../controllers/userController");
+router.post("/forgot-password", require("../controllers/userController").forgotPassword);
+
 
 // ✅ الاستيراد الصحيح
 const { protect, adminOnly } = require("../middleware/authMiddleware");
