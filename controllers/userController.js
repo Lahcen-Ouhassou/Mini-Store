@@ -115,10 +115,43 @@ const getMyProfile = async (req, res) => {
     res.status(500).json({ message: "Server error", error });
   }
 };
+
+// ==================== Update My Profile  ====================
+const updateMyProfile = async (req, res) => {
+  try {
+    // req.user جاي من protect middleware (loginيعني اللي دير )
+    const user = req.user;
+
+    // نجيب البيانات الجديدة من body
+    const { name, email, password } = req.body;
+
+    // نبدل غير الحوايج اللي مبعوثين
+    if (name) user.name = name;
+    if (email) user.email = email;
+    if (password) user.password = password;
+
+    // MongoDBنحفظ التغييرات فـ
+    const updatedUser = await user.save();
+
+    res.status(200).json({
+      message: "Profile updated successfully!",
+      user: {
+        id: updatedUser._id,
+        name: updatedUser.name,
+        email: updatedUser.email,
+        role: updatedUser.role,
+      },
+    });
+  } catch (error) {
+    res.status(500).json({ message: "Server error", error });
+  }
+};
+
 module.exports = {
   createUser,
   getAllUsers,
   loginUser,
   deleteUser,
   getMyProfile,
+  updateMyProfile,
 };
