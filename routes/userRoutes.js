@@ -8,6 +8,7 @@ const {
   getMyProfile,
   updateMyProfile,
   forgotPassword,
+  resetPassword,
 } = require("../controllers/userController");
 
 
@@ -20,6 +21,8 @@ router.post("/register", createUser);
 router.get("/profile", protect, getMyProfile);
 router.put("/updateprofile", protect, updateMyProfile);
 router.post("/forgot-password",forgotPassword)
+router.post("/reset-password/:token", resetPassword);
+
 
 // ✅ غير admin يقدر يشوف أو يمسح
 router.get("/", protect, adminOnly, getAllUsers);

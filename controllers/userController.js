@@ -1,5 +1,7 @@
 const jwt = require("jsonwebtoken"); // jsonwebtoken (JWT) → كتستعملها باش تولّد “توكن” (Token) فـ تسجيل الدخول باش المستخدم يبقى “مسجّل الدخول” و آمن.
 const bcrypt = require("bcryptjs"); // bcryptjs → كتستعملها باش تشفر (تـهاشّي) كلمات السر قبل ما تحطهم فـ MongoDB.
+const crypto = require("crypto"); // ✅ ضروري
+const nodemailer = require("nodemailer");
 const User = require("../models/userModel");
 
 // ==================== Create User (register) ====================
@@ -38,7 +40,6 @@ const getAllUsers = async (req, res) => {
 };
 
 // ==================== generate Token  ====================
-
 const generateToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, {
     // jwt.sign() كتصاوب توكن جديد   , process.env.JWT_SECRET → السر اللي كيتستعمل لتشفير التوكن (مكتوب فـ .env).
@@ -147,36 +148,41 @@ const updateMyProfile = async (req, res) => {
   }
 };
 
-
-
 // ==================== Forgot Password  ====================
 const forgotPassword = async (req, res) => {
   const { email } = req.body;
 
   try {
-    // 1️⃣ كنقلب واش الإيميل كاين فقاعدة البيانات
     const user = await User.findOne({ email });
-    if (!user) {
-      return res.status(404).json({ message: "User not found with this email" });
-    }
+    if (!user)
+      return res
+        .status(404)
+        .json({ message: "User not found with this email" });
 
-    // 2️⃣ إنشاء توكن مؤقت
+    // 1️⃣ إنشاء توكن عشوائي (raw)
     const resetToken = crypto.randomBytes(20).toString("hex");
-    user.resetPasswordToken = resetToken;
-    user.resetPasswordExpires = Date.now() + 3600000; // صالح لمدة ساعة وحدة
+
+    // 2️⃣ تشفير التوكن قبل التخزين (حماية)
+    const hashedToken = crypto
+      .createHash("sha256")
+      .update(resetToken)
+      .digest("hex");
+
+    user.resetPasswordToken = hashedToken;
+    user.resetPasswordExpires = Date.now() + 60 * 60 * 1000; // ساعة
     await user.save();
 
-    // 3️⃣ إعداد النقل عبر Gmail
+    // 3️⃣ إعداد الإيميل
+    const resetURL = `http://localhost:3000/reset-password/${resetToken}`; // نرسل النسخة الأصلية (غير مشفرة)
+
     const transporter = nodemailer.createTransport({
       service: "gmail",
       auth: {
-        user: process.env.EMAIL_USER, // غادي نديروها ف .env
-        pass: process.env.EMAIL_PASS, // غادي نديروها ف .env
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS,
       },
     });
 
-    // 4️⃣ إعداد الرسالة
-    const resetURL = `http://localhost:3000/reset-password/${resetToken}`;
     const mailOptions = {
       to: user.email,
       from: process.env.EMAIL_USER,
@@ -189,10 +195,42 @@ const forgotPassword = async (req, res) => {
       `,
     };
 
-    // 5️⃣ إرسال الإيميل
     await transporter.sendMail(mailOptions);
 
     res.status(200).json({ message: "Email sent successfully!" });
+  } catch (error) {
+    console.error("Error in forgotPassword:", error);
+    res.status(500).json({ message: error.message });
+  }
+};
+
+// ✅ Reset Password
+const resetPassword = async (req, res) => {
+  try {
+    const { token } = req.params;
+    const { password } = req.body;
+
+    // نحولو token العادي إلى hashed نفس الطريقة ديال التخزين
+    const hashedToken = crypto.createHash("sha256").update(token).digest("hex");
+
+    // نلقاو المستخدم اللي عندو نفس hashed token
+    const user = await User.findOne({
+      resetPasswordToken: hashedToken,
+      resetPasswordExpires: { $gt: Date.now() },
+    });
+
+    if (!user) {
+      return res.status(400).json({ message: "Invalid or expired token" });
+    }
+
+    // نبدلو الباسورد و نحيدو التوكن القديم
+    user.password = password;
+    user.resetPasswordToken = undefined;
+    user.resetPasswordExpires = undefined;
+
+    await user.save();
+
+    res.status(200).json({ message: "Password reset successfully!" });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Something went wrong" });
@@ -207,4 +245,5 @@ module.exports = {
   getMyProfile,
   updateMyProfile,
   forgotPassword,
+  resetPassword,
 };
