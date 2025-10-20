@@ -7,7 +7,7 @@ const createProduct = async (req, res) => {
 
     // التحقق من الحقول الأساسية
     if (!name || !price) {
-      return res.status(400).json({ message: "Name and price are required" });
+      return res.status(400).json({ message: "Name and price are Required" });
     }
 
     const newProduct = new Product({
@@ -21,13 +21,13 @@ const createProduct = async (req, res) => {
 
     await newProduct.save();
     res.status(201).json({
-      message: "✅ Product created successfully!",
+      message: "✅ Product Created Successfully!",
       product: newProduct,
     });
   } catch (error) {
     res
       .status(500)
-      .json({ message: "❌ Error creating product", error: error.message });
+      .json({ message: "❌ Error creating Product", error: error.message });
   }
 };
 
@@ -42,7 +42,7 @@ const getAllProducts = async (req, res) => {
   } catch (error) {
     res
       .status(500)
-      .json({ message: "❌ Error fetching products", error: error.message });
+      .json({ message: "❌ Error fetching Products", error: error.message });
   }
 };
 
@@ -71,16 +71,16 @@ const updateProduct = async (req, res) => {
     );
 
     if (!updatedProduct)
-      return res.status(404).json({ message: "❌ Product not found" });
+      return res.status(404).json({ message: "❌ Product not Found" });
 
     res.status(200).json({
-      message: "✅ Product updated successfully!",
+      message: "✅ Product Updated Successfully!",
       product: updatedProduct,
     });
   } catch (error) {
     res
       .status(500)
-      .json({ message: "❌ Error updating product", error: error.message });
+      .json({ message: "❌ Error updating Product", error: error.message });
   }
 };
 
@@ -89,13 +89,13 @@ const deleteProduct = async (req, res) => {
   try {
     const deletedProduct = await Product.findByIdAndDelete(req.params.id);
     if (!deletedProduct)
-      return res.status(404).json({ message: "❌ Product not found" });
+      return res.status(404).json({ message: "❌ Product not Found" });
 
-    res.status(200).json({ message: "🗑️ Product deleted successfully!" });
+    res.status(200).json({ message: "🗑️ Product Deleted Successfully!" });
   } catch (error) {
     res
       .status(500)
-      .json({ message: "❌ Error deleting product", error: error.message });
+      .json({ message: "❌ Error deleting Product", error: error.message });
   }
 };
 
