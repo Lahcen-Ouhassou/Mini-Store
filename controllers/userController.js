@@ -157,10 +157,10 @@ const forgotPassword = async (req, res) => {
     if (!user)
       return res
         .status(404)
-        .json({ message: "User not found with this email" });
+        .json({ message: "User not found with this Email" });
 
     // 1️⃣ إنشاء توكن عشوائي (raw)
-    const resetToken = crypto.randomBytes(20).toString("hex");
+    const resetToken = crypto.randomBytes(20).toString("hex"); // كنستعمل مكتبة crypto باش نصايبو token عشوائي (سلسلة حروف فريدة).
 
     // 2️⃣ تشفير التوكن قبل التخزين (حماية)
     const hashedToken = crypto
@@ -216,7 +216,7 @@ const resetPassword = async (req, res) => {
     // hashed token نلقاو المستخدم اللي عندو نفس
     const user = await User.findOne({
       resetPasswordToken: hashedToken,
-      resetPasswordExpires: { $gt: Date.now() },
+      resetPasswordExpires: { $gt: Date.now() }, // ونتأكدو أن الوقت مازال صالح ($gt: Date.now() = أكبر من الوقت الحالي).
     });
 
     if (!user) {
@@ -230,9 +230,30 @@ const resetPassword = async (req, res) => {
 
     await user.save();
 
-    res.status(200).json({ message: "Password reset Successfully!" });
+    res.status(200).json({ message: "Password Reset Successfully!" });
   } catch (error) {
     console.error(error);
+    res.status(500).json({ message: "Something went wrong" });
+  }
+};
+
+// ==================== Delete my account ====================
+const deleteMyAccount = async (req, res) => {
+  try {
+    // req.user كيجينا من middleware protect (المستخدم اللي داخل فعلاً)
+    const user = await User.findById(req.user._id);
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    await User.deleteOne({ _id: req.user._id });
+
+    res
+      .status(200)
+      .json({ message: "Your account has been deleted Successfully" });
+  } catch (error) {
+    console.error("Error deleting account:", error);
     res.status(500).json({ message: "Something went wrong" });
   }
 };
@@ -246,4 +267,5 @@ module.exports = {
   updateMyProfile,
   forgotPassword,
   resetPassword,
+  deleteMyAccount,
 };
