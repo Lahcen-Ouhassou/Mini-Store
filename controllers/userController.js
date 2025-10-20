@@ -1,6 +1,6 @@
 const jwt = require("jsonwebtoken"); // jsonwebtoken (JWT) → كتستعملها باش تولّد “توكن” (Token) فـ تسجيل الدخول باش المستخدم يبقى “مسجّل الدخول” و آمن.
 const bcrypt = require("bcryptjs"); // bcryptjs → كتستعملها باش تشفر (تـهاشّي) كلمات السر قبل ما تحطهم فـ MongoDB.
-const crypto = require("crypto"); // ✅ ضروري
+const crypto = require("crypto");
 const nodemailer = require("nodemailer");
 const User = require("../models/userModel");
 
@@ -197,14 +197,14 @@ const forgotPassword = async (req, res) => {
 
     await transporter.sendMail(mailOptions);
 
-    res.status(200).json({ message: "Email sent successfully!" });
+    res.status(200).json({ message: "Email sent Successfully!" });
   } catch (error) {
     console.error("Error in forgotPassword:", error);
     res.status(500).json({ message: error.message });
   }
 };
 
-// ✅ Reset Password
+// ==================== Reset Password  ====================
 const resetPassword = async (req, res) => {
   try {
     const { token } = req.params;
@@ -213,7 +213,7 @@ const resetPassword = async (req, res) => {
     // نحولو token العادي إلى hashed نفس الطريقة ديال التخزين
     const hashedToken = crypto.createHash("sha256").update(token).digest("hex");
 
-    // نلقاو المستخدم اللي عندو نفس hashed token
+    // hashed token نلقاو المستخدم اللي عندو نفس
     const user = await User.findOne({
       resetPasswordToken: hashedToken,
       resetPasswordExpires: { $gt: Date.now() },
@@ -230,7 +230,7 @@ const resetPassword = async (req, res) => {
 
     await user.save();
 
-    res.status(200).json({ message: "Password reset successfully!" });
+    res.status(200).json({ message: "Password reset Successfully!" });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Something went wrong" });
