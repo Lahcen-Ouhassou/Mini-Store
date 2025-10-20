@@ -9,6 +9,7 @@ const {
   updateMyProfile,
   forgotPassword,
   resetPassword,
+  deleteMyAccount,
 } = require("../controllers/userController");
 
 
@@ -22,6 +23,8 @@ router.get("/profile", protect, getMyProfile);
 router.put("/updateprofile", protect, updateMyProfile);
 router.post("/forgot-password",forgotPassword)
 router.post("/reset-password/:token", resetPassword);
+router.delete("/delete-me", protect, deleteMyAccount);
+
 
 
 // ✅ غير admin يقدر يشوف أو يمسح
