@@ -34,15 +34,51 @@ const createProduct = async (req, res) => {
 // ==================== GET ALL PRODUCTS ====================
 const getAllProducts = async (req, res) => {
   try {
-    const products = await Product.find();
-    res.status(200).json({
-      count: products.length,
+    // query نجيبو القيم من الـ 
+    const keyword = req.query.keyword
+      ? {
+          name: { $regex: req.query.keyword, $options: "i" },
+        }
+      : {};
+
+    const category = req.query.category
+      ? {
+          category: req.query.category,
+        }
+      : {};
+
+    // 🟢 ندمجوهم فـ object واحد
+    const filter = { ...keyword, ...category };
+
+    // 🟢 Pagination setup
+    const page = Number(req.query.page) || 1;
+    const limit = Number(req.query.limit) || 10;
+    const skip = (page - 1) * limit;
+
+    // 🟢 نجيب المنتجات
+    const products = await Product.find(filter)
+      .sort({ createdAt: -1 })
+      .skip(skip)
+      .limit(limit);
+
+    // 🟢 نجيب العدد الكلي باش نعرف عدد الصفحات
+    const total = await Product.countDocuments(filter);
+
+    // ✅ النتيجة
+    res.json({
+      success: true,
+      currentPage: page,
+      totalPages: Math.ceil(total / limit),
+      totalProducts: total,
       products,
     });
   } catch (error) {
-    res
-      .status(500)
-      .json({ message: "❌ Error fetching Products", error: error.message });
+    console.error(error);
+    res.status(500).json({
+      success: false,
+      message: "❌ Error while getting products",
+      error: error.message,
+    });
   }
 };
 
