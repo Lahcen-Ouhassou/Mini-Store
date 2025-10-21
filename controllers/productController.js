@@ -34,10 +34,10 @@ const createProduct = async (req, res) => {
 // ==================== GET ALL PRODUCTS ====================
 const getAllProducts = async (req, res) => {
   try {
-    // query نجيبو القيم من الـ 
+    // query نجيبو القيم من الـ
     const keyword = req.query.keyword
       ? {
-          name: { $regex: req.query.keyword, $options: "i" },
+          name: { $regex: req.query.keyword, $options: "i" }, // $options: "i" → كتخلي البحث ما يفرقش بين الحروف الكبيرة والصغيرة
         }
       : {};
 
@@ -47,21 +47,21 @@ const getAllProducts = async (req, res) => {
         }
       : {};
 
-    // 🟢 ندمجوهم فـ object واحد
-    const filter = { ...keyword, ...category };
+    //  واحد object ندمجوهم فـ
+    const filter = { ...keyword, ...category }; // Apple والفئة ديالها Phones بحال إلى قلت: جيب المنتجات اللي الاسم فيها
 
-    // 🟢 Pagination setup
-    const page = Number(req.query.page) || 1;
-    const limit = Number(req.query.limit) || 10;
-    const skip = (page - 1) * limit;
+    // Pagination setup
+    const page = Number(req.query.page) || 1; // page → رقم الصفحة الحالية (مثلاً 1 أو 2).  (ida ktb lmostkhadim page=2 ay3tih page tanya mktb walo ay3tih qutomatiqument page=1)
+    const limit = Number(req.query.limit) || 10; // limit → شحال من منتوج فكل صفحة. (ida ktb lmostakhdim 5 ay3tih limit =5 ila mktbhach ay3tih automatique 10)
+    const skip = (page - 1) * limit; // skip → شحال من منتوج نتجاوز باش نوصل لبداية الصفحة الجديدة.
 
-    // 🟢 نجيب المنتجات
+    // نجيب المنتجات
     const products = await Product.find(filter)
-      .sort({ createdAt: -1 })
-      .skip(skip)
-      .limit(limit);
+      .sort({ createdAt: -1 }) // كيرتبهم من الأحدث إلى الأقدم
+      .skip(skip) // .skip(skip) → يتجاوز عدد معين من النتائج.
+      .limit(limit); // .limit(limit) → يجيب عدد محدد فقط (مثلاً 10 أو 5).
 
-    // 🟢 نجيب العدد الكلي باش نعرف عدد الصفحات
+    //  نجيب العدد الكلي باش نعرف عدد الصفحات
     const total = await Product.countDocuments(filter);
 
     // ✅ النتيجة
