@@ -10,8 +10,10 @@ const createProduct = async (req, res) => {
       return res.status(400).json({ message: "Name and price are Required" });
     }
 
-     // الصورة إما من المرفقات وإلا الافتراضية
-    const image = req.file ? `/uploads/${req.file.filename}`: "https://via.placeholder.com/150";
+    // الصورة إما من المرفقات وإلا الافتراضية
+    const image = req.file
+      ? `/uploads/${req.file.filename}`
+      : "https://via.placeholder.com/150";
 
     const newProduct = new Product({
       name,
@@ -103,9 +105,20 @@ const getProductById = async (req, res) => {
 // ==================== UPDATE PRODUCT ====================
 const updateProduct = async (req, res) => {
   try {
+    const { name, price, description, category, stock } = req.body;
+
+    // نحضرو object فيه التحديثات الجديدة
+    const updatedData = { name, price, description, category, stock };
+
+    // إذا المستخدم رفع صورة جديدة
+    if (req.file) {
+      updatedData.image = `/uploads/${req.file.filename}`;
+    }
+
+    // نديرو التحديث
     const updatedProduct = await Product.findByIdAndUpdate(
       req.params.id,
-      req.body,
+      updatedData,
       { new: true, runValidators: true }
     );
 
@@ -117,9 +130,10 @@ const updateProduct = async (req, res) => {
       product: updatedProduct,
     });
   } catch (error) {
-    res
-      .status(500)
-      .json({ message: "❌ Error updating Product", error: error.message });
+    res.status(500).json({
+      message: "❌ Error updating Product",
+      error: error.message,
+    });
   }
 };
 
