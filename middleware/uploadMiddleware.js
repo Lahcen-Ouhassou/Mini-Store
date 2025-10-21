@@ -1,13 +1,13 @@
 const multer = require("multer");
 const path = require("path");
 
-// 🟢 تحديد المكان اللي غادي تتحفظ فيه الصور
+// تحديد المكان اللي غادي تتحفظ فيه الصور
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, "uploads/"); // 📁 غادي نحطو الصور فـ مجلد اسمو "uploads"
   },
   filename: function (req, file, cb) {
-    // 🟢 نولّيو نسميو كل ملف بوقت الرفع + الاسم الأصلي باش مايتكرروش
+    // نولّيو نسميو كل ملف بوقت الرفع + الاسم الأصلي باش مايتكرروش
     cb(
       null,
       Date.now() + "-" + file.originalname.replace(/\s+/g, "_")
@@ -15,7 +15,7 @@ const storage = multer.diskStorage({
   },
 });
 
-// 🟢 نتحقق من نوع الملف (غير الصور)
+// نتحقق من نوع الملف (غير الصور)
 const fileFilter = (req, file, cb) => {
   const allowed = /jpeg|jpg|png|gif/;
   const ext = path.extname(file.originalname).toLowerCase();
@@ -26,7 +26,7 @@ const fileFilter = (req, file, cb) => {
   }
 };
 
-// 🟢 إنشاء middleware multer
+// إنشاء middleware multer
 const upload = multer({
   storage,
   fileFilter,

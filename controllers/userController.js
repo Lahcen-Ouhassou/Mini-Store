@@ -33,7 +33,6 @@ const createUser = async (req, res) => {
 };
 
 // ==================== Get all users  ====================
-
 const getAllUsers = async (req, res) => {
   const users = await User.find();
   res.json({ Count: users.length, users });

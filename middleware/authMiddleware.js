@@ -4,8 +4,8 @@ const User = require("../models/userModel");
 // يتأكد واش المستخدم عندو token JWT صالحة (يعني مسجل الدخول).
 const protect = async (req, res, next) => {
   let token;
-  // كيتحقق واش كاين header فيه "Authorization" وكيبدأ بـ "Bearer"
 
+  // كيتحقق واش كاين header فيه "Authorization" وكيبدأ بـ "Bearer"
   if (
     req.headers.authorization &&
     req.headers.authorization.startsWith("Bearer")
@@ -32,8 +32,7 @@ const protect = async (req, res, next) => {
   }
 };
 
-// "role = "admin" admin عندو الدور protect هاد الميدلواير كيتأكد واش المستخدم اللي جا من  
-
+// "role = "admin" admin عندو الدور protect هاد الميدلواير كيتأكد واش المستخدم اللي جا من
 const adminOnly = (req, res, next) => {
   if (req.user && req.user.role === "admin") {
     next();
