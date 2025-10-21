@@ -3,12 +3,15 @@ const Product = require("../models/productModel");
 // ==================== CREATE PRODUCT ====================
 const createProduct = async (req, res) => {
   try {
-    const { name, price, description, category, stock, image } = req.body;
+    const { name, price, description, category, stock } = req.body;
 
     // التحقق من الحقول الأساسية
     if (!name || !price) {
       return res.status(400).json({ message: "Name and price are Required" });
     }
+
+     // الصورة إما من المرفقات وإلا الافتراضية
+    const image = req.file ? `/uploads/${req.file.filename}`: "https://via.placeholder.com/150";
 
     const newProduct = new Product({
       name,
