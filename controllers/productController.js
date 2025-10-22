@@ -19,11 +19,11 @@ const createProduct = async (req, res) => {
     const savedProduct = await product.save();
 
     res.status(201).json({
-      message: "✅ Product created successfully",
+      message: "✅ Product Created Successfully",
       product: savedProduct,
     });
   } catch (error) {
-    console.error("Error creating product:", error);
+    console.error("Error Creating Product:", error);
     res.status(500).json({ message: "❌ Error creating product", error });
   }
 };
