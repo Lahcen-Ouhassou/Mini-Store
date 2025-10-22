@@ -1,7 +1,6 @@
 const Product = require("../models/productModel");
 
 // ==================== CREATE PRODUCT ====================
-
 const createProduct = async (req, res) => {
   try {
     // multer kaydir req.file.path ila tsawrat image
@@ -27,9 +26,6 @@ const createProduct = async (req, res) => {
     res.status(500).json({ message: "❌ Error creating product", error });
   }
 };
-
-
-
 
 // ==================== GET ALL PRODUCTS ====================
 const getAllProducts = async (req, res) => {

@@ -12,20 +12,16 @@ const {
   deleteMyAccount,
 } = require("../controllers/userController");
 
-
-
 // Get function verify JWT(protect) w verify role admin (adminOnly)
 const { protect, adminOnly } = require("../middleware/authMiddleware");
 
-router.post("/login", loginUser);
 router.post("/register", createUser);
+router.post("/login", loginUser);
 router.get("/profile", protect, getMyProfile);
 router.put("/updateprofile", protect, updateMyProfile);
-router.post("/forgot-password",forgotPassword)
+router.post("/forgot-password", forgotPassword);
 router.post("/reset-password/:token", resetPassword);
 router.delete("/delete-me", protect, deleteMyAccount);
-
-
 
 // ✅ غير admin يقدر يشوف أو يمسح
 router.get("/", protect, adminOnly, getAllUsers);
