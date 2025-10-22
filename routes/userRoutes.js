@@ -14,7 +14,7 @@ const {
 
 
 
-// ✅ الاستيراد الصحيح
+// Get function verify JWT(protect) w verify role admin (adminOnly)
 const { protect, adminOnly } = require("../middleware/authMiddleware");
 
 router.post("/login", loginUser);
