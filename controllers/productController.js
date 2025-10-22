@@ -1,40 +1,35 @@
 const Product = require("../models/productModel");
 
 // ==================== CREATE PRODUCT ====================
+
 const createProduct = async (req, res) => {
   try {
-    const { name, price, description, category, stock } = req.body;
+    // multer kaydir req.file.path ila tsawrat image
+    const imagePath = req.file ? req.file.path : undefined;
 
-    // التحقق من الحقول الأساسية
-    if (!name || !price) {
-      return res.status(400).json({ message: "Name and price are Required" });
-    }
-
-    // الصورة إما من المرفقات وإلا الافتراضية
-    const image = req.file
-      ? `/uploads/${req.file.filename}`
-      : "https://via.placeholder.com/150";
-
-    const newProduct = new Product({
-      name,
-      price,
-      description,
-      category,
-      stock,
-      image,
+    const product = new Product({
+      name: req.body.name,
+      price: req.body.price,
+      description: req.body.description,
+      category: req.body.category,
+      stock: req.body.stock,
+      ...(imagePath && { image: imagePath }), // ila kayna tswira n7otha
     });
 
-    await newProduct.save();
+    const savedProduct = await product.save();
+
     res.status(201).json({
-      message: "✅ Product Created Successfully!",
-      product: newProduct,
+      message: "✅ Product created successfully",
+      product: savedProduct,
     });
   } catch (error) {
-    res
-      .status(500)
-      .json({ message: "❌ Error creating Product", error: error.message });
+    console.error("Error creating product:", error);
+    res.status(500).json({ message: "❌ Error creating product", error });
   }
 };
+
+
+
 
 // ==================== GET ALL PRODUCTS ====================
 const getAllProducts = async (req, res) => {
