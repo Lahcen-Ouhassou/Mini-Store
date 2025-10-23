@@ -1,7 +1,7 @@
 const Order = require("../models/Order");
 const Product = require("../models/productModel");
 
-// 🟢 إنشاء طلب جديد
+// ==================== Create Order ====================
 const createOrder = async (req, res) => {
   try {
     const userId = req.user._id; // ✅ خذناها من الـ token
@@ -37,7 +37,7 @@ const createOrder = async (req, res) => {
   }
 };
 
-// 🔵 جلب الطلبات ديال المستخدم
+// ==================== Get User Orders ====================
 const getUserOrders = async (req, res) => {
   try {
     const orders = await Order.find({ user: req.user._id }).populate(
@@ -52,7 +52,7 @@ const getUserOrders = async (req, res) => {
   }
 };
 
-// 🔴 خاص بالأدمن: جميع الطلبات
+// ==================== get All Orders ====================
 const getAllOrders = async (req, res) => {
   try {
     const orders = await Order.find()
@@ -67,7 +67,7 @@ const getAllOrders = async (req, res) => {
   }
 };
 
-// 🟠 تحديث حالة الطلب
+// ==================== update Order Status(admin) ====================
 const updateOrderStatus = async (req, res) => {
   try {
     const order = await Order.findById(req.params.id);
