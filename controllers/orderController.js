@@ -1,27 +1,39 @@
 const Order = require("../models/Order");
+const Product = require("../models/productModel");
 
 // 🟢 إنشاء طلب جديد
 const createOrder = async (req, res) => {
   try {
-    const { products, totalPrice } = req.body;
+    const userId = req.user._id; // ✅ خذناها من الـ token
+    const { products } = req.body;
 
-    if (!products || products.length === 0)
-      return res.status(400).json({ message: "❌ No products in order" });
+    let totalPrice = 0;
 
-    const order = await Order.create({
-      user: req.user._id, // جاي من الـ middleware ديال protect
+    for (const item of products) {
+      const product = await Product.findById(item.product);
+      if (!product) {
+        return res.status(404).json({ message: `Product not found: ${item.product}` });
+      }
+      totalPrice += product.price * item.quantity;
+    }
+
+    const newOrder = new Order({
+      user: userId, // ✅ استعملنا user من الـ token
       products,
       totalPrice,
     });
 
+    await newOrder.save();
+
     res.status(201).json({
       message: "✅ Order created successfully",
-      order,
+      order: newOrder,
     });
   } catch (error) {
-    res
-      .status(500)
-      .json({ message: "❌ Error creating order", error: error.message });
+    res.status(500).json({
+      message: "❌ Error creating order",
+      error: error.message,
+    });
   }
 };
 
