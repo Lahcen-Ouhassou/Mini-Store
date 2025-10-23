@@ -1,7 +1,7 @@
 const Cart = require("../models/cartModel");
 const Product = require("../models/productModel");
 
-// 🟢 1. Add product to cart
+// ====================  Add product to cart ====================
 const addToCart = async (req, res) => {
   try {
     const userId = req.user._id; // من التوكن
@@ -37,7 +37,7 @@ const addToCart = async (req, res) => {
 
     res.status(200).json({
       message: "✅ Product added to cart",
-      cart
+      cart,
     });
   } catch (error) {
     res.status(500).json({
@@ -47,7 +47,7 @@ const addToCart = async (req, res) => {
   }
 };
 
-// 🔹 دالة مساعدة لحساب الثمن الكلي
+// ==================== calculate Total ====================
 const calculateTotal = async (items) => {
   let total = 0;
   for (const item of items) {
@@ -57,7 +57,7 @@ const calculateTotal = async (items) => {
   return total;
 };
 
-// 🟢 2. Get user's cart
+// ====================  Get user's cart ====================
 const getCart = async (req, res) => {
   try {
     const cart = await Cart.findOne({ user: req.user._id }).populate(
@@ -81,7 +81,7 @@ const getCart = async (req, res) => {
   }
 };
 
-// 🟢 3. Update quantity
+// ====================  Update quantity cart ====================
 const updateQuantity = async (req, res) => {
   try {
     const { productId, quantity } = req.body;
@@ -108,7 +108,7 @@ const updateQuantity = async (req, res) => {
   }
 };
 
-// 🟢 4. Remove item
+// ====================  Remove item cart ====================
 const removeFromCart = async (req, res) => {
   try {
     const { productId } = req.body;
