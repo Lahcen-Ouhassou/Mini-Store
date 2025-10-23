@@ -24,6 +24,9 @@ app.use("/uploads", express.static("uploads"));
 const orderRouter = require("./routes/orderRoutes");
 app.use("/api/v1/orders", orderRouter);
 
+const cartRouter = require("./routes/cartRoutes");
+app.use("/api/v1/cart", cartRouter);
+
 const PORT = 5000;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
