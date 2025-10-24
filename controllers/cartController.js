@@ -105,8 +105,44 @@ const confirmOrder = async (req, res) => {
   }
 };
 
+// 🟢 Remove product from cart
+const removeFromCart = async (req, res) => {
+  try {
+    const { productId } = req.body;
+
+    const cart = await Cart.findOne({ user: req.user._id }).populate(
+      "products.product"
+    );
+
+    if (!cart) {
+      return res.status(404).json({ message: "🛒 Cart not found" });
+    }
+
+    if (!cart.products || cart.products.length === 0) {
+      return res.status(400).json({ message: "Cart is already empty" });
+    }
+
+    // ✅ fix comparison issue
+    cart.products = cart.products.filter((item) => {
+      const productIdInCart =
+        item.product._id?.toString() || item.product.toString();
+      return productIdInCart !== productId;
+    });
+
+    await cart.save();
+
+    res.json({ message: "🗑️ Product removed from cart", cart });
+  } catch (error) {
+    res.status(500).json({
+      message: "❌ Error removing product",
+      error: error.message,
+    });
+  }
+};
+
 module.exports = {
   getMyCart,
   addToCart,
   confirmOrder,
+  removeFromCart,
 };
