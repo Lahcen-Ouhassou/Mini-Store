@@ -1,136 +1,112 @@
 const Cart = require("../models/cartModel");
+const Order = require("../models/orderModel");
 const Product = require("../models/productModel");
 
-// ====================  Add product to cart ====================
+// 🟢 Get user's cart (with totalPrice)
+const getMyCart = async (req, res) => {
+  try {
+    const cart = await Cart.findOne({ user: req.user._id }).populate(
+      "products.product",
+      "name price"
+    );
+
+    if (!cart) return res.json({ message: "🛒 Your cart is empty" });
+
+    // نحسب totalPrice ديناميكياً
+    const totalPrice = cart.products.reduce(
+      (sum, item) => sum + item.product.price * item.quantity,
+      0
+    );
+
+    res.json({
+      success: true,
+      cart: {
+        ...cart.toObject(),
+        totalPrice,
+      },
+    });
+  } catch (error) {
+    res
+      .status(500)
+      .json({ message: "❌ Error fetching cart", error: error.message });
+  }
+};
+
+// 🟢 Add product to cart
 const addToCart = async (req, res) => {
   try {
-    const userId = req.user._id; // من التوكن
     const { productId, quantity } = req.body;
 
-    const product = await Product.findById(productId);
-    if (!product) {
-      return res.status(404).json({ message: "❌ Product not found" });
-    }
-
-    // نجيب السلة ديال المستخدم أو نخلق وحدة جديدة
-    let cart = await Cart.findOne({ user: userId });
+    let cart = await Cart.findOne({ user: req.user._id });
 
     if (!cart) {
-      cart = new Cart({ user: userId, items: [], totalPrice: 0 });
+      cart = new Cart({ user: req.user._id, products: [] });
     }
 
-    // نشوف واش المنتوج كاين ديجا فالسلة
-    const existingItem = cart.items.find(
+    const existingItem = cart.products.find(
       (item) => item.product.toString() === productId
     );
 
     if (existingItem) {
-      existingItem.quantity += quantity; // نزيد الكمية
+      existingItem.quantity += quantity;
     } else {
-      cart.items.push({ product: productId, quantity });
+      cart.products.push({ product: productId, quantity });
     }
-
-    // نحسب الثمن الإجمالي
-    cart.totalPrice = await calculateTotal(cart.items);
 
     await cart.save();
 
-    res.status(200).json({
-      message: "✅ Product added to cart",
-      cart,
-    });
+    res.json({ success: true, message: "✅ Product added to cart", cart });
   } catch (error) {
-    res.status(500).json({
-      message: "❌ Error adding to cart",
-      error: error.message,
-    });
+    res
+      .status(500)
+      .json({ message: "❌ Error adding to cart", error: error.message });
   }
 };
 
-// ==================== calculate Total ====================
-const calculateTotal = async (items) => {
-  let total = 0;
-  for (const item of items) {
-    const product = await Product.findById(item.product);
-    total += product.price * item.quantity;
-  }
-  return total;
-};
-
-// ====================  Get user's cart ====================
-const getCart = async (req, res) => {
+// 🟢 Confirm order (from cart)
+const confirmOrder = async (req, res) => {
   try {
     const cart = await Cart.findOne({ user: req.user._id }).populate(
-      "items.product",
-      "name price"
+      "products.product",
+      "price"
     );
 
-    if (!cart) {
-      return res.json({ message: "🛒 Your cart is empty" });
-    }
+    if (!cart || cart.products.length === 0)
+      return res.status(400).json({ message: "🛒 Cart is empty" });
 
-    res.json({
-      success: true,
-      cart,
+    const totalPrice = cart.products.reduce(
+      (sum, item) => sum + item.product.price * item.quantity,
+      0
+    );
+
+    const order = new Order({
+      user: req.user._id,
+      products: cart.products.map((item) => ({
+        product: item.product._id,
+        quantity: item.quantity,
+      })),
+      totalPrice,
+    });
+
+    await order.save();
+
+    // بعد الإنشاء نحيد السلة
+    await Cart.deleteOne({ user: req.user._id });
+
+    res.status(201).json({
+      message: "✅ Order confirmed successfully",
+      order,
     });
   } catch (error) {
     res.status(500).json({
-      message: "❌ Error getting cart",
+      message: "❌ Error confirming order",
       error: error.message,
     });
   }
 };
 
-// ====================  Update quantity cart ====================
-const updateQuantity = async (req, res) => {
-  try {
-    const { productId, quantity } = req.body;
-    const cart = await Cart.findOne({ user: req.user._id });
-
-    if (!cart) return res.status(404).json({ message: "Cart not found" });
-
-    const item = cart.items.find((i) => i.product.toString() === productId);
-    if (!item) return res.status(404).json({ message: "Product not in cart" });
-
-    item.quantity = quantity;
-    cart.totalPrice = await calculateTotal(cart.items);
-    await cart.save();
-
-    res.json({
-      message: "✅ Quantity updated",
-      cart,
-    });
-  } catch (error) {
-    res.status(500).json({
-      message: "❌ Error updating quantity",
-      error: error.message,
-    });
-  }
+module.exports = {
+  getMyCart,
+  addToCart,
+  confirmOrder,
 };
-
-// ====================  Remove item cart ====================
-const removeFromCart = async (req, res) => {
-  try {
-    const { productId } = req.body;
-    const cart = await Cart.findOne({ user: req.user._id });
-
-    if (!cart) return res.status(404).json({ message: "Cart not found" });
-
-    cart.items = cart.items.filter((i) => i.product.toString() !== productId);
-
-    cart.totalPrice = await calculateTotal(cart.items);
-    await cart.save();
-
-    res.json({
-      message: "✅ Product removed from cart",
-      cart,
-    });
-  } catch (error) {
-    res.status(500).json({
-      message: "❌ Error removing product",
-      error: error.message,
-    });
-  }
-};
-
-module.exports = { addToCart, getCart, updateQuantity, removeFromCart };
