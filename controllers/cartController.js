@@ -10,7 +10,7 @@ const getMyCart = async (req, res) => {
       "name price"
     );
 
-    if (!cart) return res.json({ message: "🛒 Your cart is empty" });
+    if (!cart) return res.json({ message: "🛒 Your Cart is Empty" });
 
     // نحسب totalPrice ديناميكياً
     const totalPrice = cart.products.reduce(
@@ -28,7 +28,7 @@ const getMyCart = async (req, res) => {
   } catch (error) {
     res
       .status(500)
-      .json({ message: "❌ Error fetching cart", error: error.message });
+      .json({ message: "❌ Error fetching Cart", error: error.message });
   }
 };
 
@@ -55,11 +55,11 @@ const addToCart = async (req, res) => {
 
     await cart.save();
 
-    res.json({ success: true, message: "✅ Product added to cart", cart });
+    res.json({ success: true, message: "✅ Product Added to Cart", cart });
   } catch (error) {
     res
       .status(500)
-      .json({ message: "❌ Error adding to cart", error: error.message });
+      .json({ message: "❌ Error Adding to Cart", error: error.message });
   }
 };
 
@@ -72,7 +72,7 @@ const confirmOrder = async (req, res) => {
     );
 
     if (!cart || cart.products.length === 0)
-      return res.status(400).json({ message: "🛒 Cart is empty" });
+      return res.status(400).json({ message: "🛒 Cart is Empty" });
 
     const totalPrice = cart.products.reduce(
       (sum, item) => sum + item.product.price * item.quantity,
@@ -94,12 +94,12 @@ const confirmOrder = async (req, res) => {
     await Cart.deleteOne({ user: req.user._id });
 
     res.status(201).json({
-      message: "✅ Order confirmed successfully",
+      message: "✅ Order Confirmed Successfully",
       order,
     });
   } catch (error) {
     res.status(500).json({
-      message: "❌ Error confirming order",
+      message: "❌ Error Confirming Order",
       error: error.message,
     });
   }
