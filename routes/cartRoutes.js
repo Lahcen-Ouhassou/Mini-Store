@@ -5,6 +5,7 @@ const {
   getMyCart,
   addToCart,
   confirmOrder,
+  removeFromCart,
 } = require("../controllers/cartController");
 
 // 🟢 Get user's cart
@@ -15,5 +16,7 @@ router.post("/", protect, addToCart);
 
 // 🟢 Confirm order (from cart)
 router.post("/confirm", protect, confirmOrder);
+
+router.delete("/remove", protect, removeFromCart);
 
 module.exports = router;
