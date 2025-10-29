@@ -206,6 +206,7 @@ const confirmOrder = async (req, res) => {
   }
 };
 
+// ==================== EXPORT ====================
 module.exports = {
   getMyCart,
   addToCart,
