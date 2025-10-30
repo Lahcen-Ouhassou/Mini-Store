@@ -10,18 +10,24 @@ function ProductsSection() {
       title: "Wireless Headphones",
       price: 49.99,
       image: headphones,
+      description:
+        "description description description description description description description description description description description description description description description ",
     },
     {
       id: 2,
       title: "Smart Watch",
       price: 79.99,
       image: watch,
+      description:
+        "description description description description description description description description description description description description description description description ",
     },
     {
       id: 3,
       title: "Bluetooth Speaker",
       price: 39.99,
       image: speaker,
+      description:
+        "description description description description description description description description description description description description description description description ",
     },
   ];
 
@@ -38,6 +44,7 @@ function ProductsSection() {
               image={product.image}
               title={product.title}
               price={product.price}
+              description={product.description}
             />
           ))}
         </div>
