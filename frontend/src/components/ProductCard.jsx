@@ -2,11 +2,11 @@ import React from "react";
 
 function ProductCard({ image, title, price }) {
   return (
-    <div className="bg-white shadow-md rounded-xl p-4 hover:shadow-lg transition duration-300">
+    <div className="bg-white shadow-md rounded-xl p-4 hover:shadow-lg transition duration-450">
       <img
         src={image}
         alt={title}
-        className="w-full h-48 object-cover rounded-md mb-3"
+        className="w-full h-48 object-cover rounded-md"
       />
       <h3 className="text-lg font-semibold text-gray-800 mb-1">{title}</h3>
       <p className="text-blue-600 font-bold mb-3">${price}</p>

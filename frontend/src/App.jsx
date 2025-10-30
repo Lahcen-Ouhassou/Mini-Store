@@ -1,11 +1,15 @@
-import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
-import "./App.css";
-import { Button } from "./components/Button";
+import Navbar from "./components/Navbar";
+import Hero from "./components/Hero";
+import ProductsSection from "./components/ProductsSection";
 
 function App() {
-  return <Button />;
+  return (
+    <div className="min-h-screen bg-gray-100">
+      <Navbar />
+      <Hero />
+      <ProductsSection />
+    </div>
+  );
 }
 
 export default App;
