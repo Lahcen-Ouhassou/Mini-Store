@@ -29,11 +29,17 @@ function App() {
           {/* صفحات أخرى (فارغة الآن، نزيدهم من بعد) */}
           <Route
             path="/about"
-            element={<div className="text-center py-16">About Page</div>}
+            element={
+              <div className="text-center text-gray-900 py-16">About Page</div>
+            }
           />
           <Route
             path="/contact"
-            element={<div className="text-center py-16">Contact Page</div>}
+            element={
+              <div className="text-center text-gray-900 py-16">
+                Contact Page
+              </div>
+            }
           />
         </Routes>
       </main>
