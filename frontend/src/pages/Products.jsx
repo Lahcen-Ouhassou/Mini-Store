@@ -78,15 +78,20 @@ function Products() {
         {/*  hna knchuf wsh kynin products bla filter ida kaynin n3rdhum la mkyninch ndir "No products found" */}
         {filteredProducts.length > 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-            {filteredProducts.map((product) => ( //  filteredProducts كتدور على كل منتوج فلائحة map()
-              <ProductCard
-                key={product.id}
-                image={product.image}
-                title={product.title}
-                price={product.price}
-                description={product.description}
-              />
-            ))}
+            {filteredProducts.map(
+              (
+                product //  filteredProducts كتدور على كل منتوج فلائحة map()
+              ) => (
+                <ProductCard
+                  key={product.id}
+                  id={product.id}
+                  image={product.image}
+                  title={product.title}
+                  price={product.price}
+                  description={product.description}
+                />
+              )
+            )}
           </div>
         ) : (
           <p className="text-center text-gray-500 text-lg">
