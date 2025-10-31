@@ -5,92 +5,94 @@ import watch from "../assets/watch.jpg";
 import speaker from "../assets/speaker.jpg";
 
 function Products() {
-  const allProducts = [
+  const [searchTerm, setSearchTerm] = useState("");
+  const [category, setCategory] = useState("All");
+
+  const products = [
     {
       id: 1,
       title: "Wireless Headphones",
-      price: 49.99,
       category: "Audio",
+      price: 49.99,
       image: headphones,
+      description: "High quality wireless headphones with noise cancellation.",
     },
     {
       id: 2,
       title: "Smart Watch",
+      category: "Accessories",
       price: 79.99,
-      category: "Wearable",
       image: watch,
+      description: "Modern smartwatch with fitness tracking features.",
     },
     {
       id: 3,
       title: "Bluetooth Speaker",
-      price: 39.99,
       category: "Audio",
+      price: 39.99,
       image: speaker,
-    },
-    {
-      id: 4,
-      title: "Fitness Tracker",
-      price: 59.99,
-      category: "Wearable",
-      image: watch,
+      description: "Portable speaker with deep bass and clear sound.",
     },
   ];
 
-  const [search, setSearch] = useState("");
-  const [filter, setFilter] = useState("All");
-
-  const filteredProducts = allProducts.filter((product) => {
-    const matchCategory = filter === "All" || product.category === filter;
-    const matchSearch = product.title
+  // 🔍 بحث + فلترة
+  const filteredProducts = products.filter((product) => {
+    const matchesCategory = category === "All" || product.category === category;
+    const matchesSearch = product.title
       .toLowerCase()
-      .includes(search.toLowerCase());
-    return matchCategory && matchSearch;
+      .includes(searchTerm.toLowerCase());
+    return matchesCategory && matchesSearch;
   });
 
   return (
-    <section className="py-16 bg-gray-50 min-h-screen">
+    <section className="py-16 bg-gray-50">
       <div className="container mx-auto px-4">
+        {/* 🔹 العنوان */}
         <h2 className="text-3xl font-bold text-gray-800 mb-10 text-center">
           All Products
         </h2>
 
-        {/* 🔍 Search & Filter */}
-        <div className="flex flex-col md:flex-row justify-between items-center mb-8 gap-4">
+        {/* 🧭 الفلترة و البحث */}
+        <div className="flex flex-col md:flex-row justify-between mb-8 gap-4">
+          {/* البحث */}
           <input
             type="text"
-            placeholder="Search products..."
-            className="border rounded-lg px-4 py-2 w-full md:w-1/3 focus:outline-none focus:ring-2 focus:ring-blue-600"
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
+            placeholder="Search for products..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="border border-gray-300 rounded-lg px-4 py-2 w-full md:w-1/3 focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
+
+          {/* الفئة */}
           <select
-            className="border rounded-lg px-4 py-2 w-full md:w-1/4 focus:outline-none focus:ring-2 focus:ring-blue-600"
-            value={filter}
-            onChange={(e) => setFilter(e.target.value)}
+            value={category}
+            onChange={(e) => setCategory(e.target.value)}
+            className="border border-gray-300 rounded-lg px-4 py-2 w-full md:w-1/4 focus:outline-none focus:ring-2 focus:ring-blue-500"
           >
             <option value="All">All Categories</option>
             <option value="Audio">Audio</option>
-            <option value="Wearable">Wearable</option>
+            <option value="Accessories">Accessories</option>
           </select>
         </div>
 
-        {/* 🛍️ Product List */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-          {filteredProducts.length > 0 ? (
-            filteredProducts.map((product) => (
+        {/* 🛍️ المنتجات */}
+        {filteredProducts.length > 0 ? (
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+            {filteredProducts.map((product) => (
               <ProductCard
                 key={product.id}
                 image={product.image}
                 title={product.title}
                 price={product.price}
+                description={product.description}
               />
-            ))
-          ) : (
-            <p className="text-center text-gray-600 col-span-full">
-              No products found 😢
-            </p>
-          )}
-        </div>
+            ))}
+          </div>
+        ) : (
+          <p className="text-center text-gray-500 text-lg">
+            No products found.
+          </p>
+        )}
       </div>
     </section>
   );
