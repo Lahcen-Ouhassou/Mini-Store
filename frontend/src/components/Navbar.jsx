@@ -26,13 +26,20 @@ function Navbar() {
       </div>
 
       {/* Login Buttons */}
+      {/* Login Buttons */}
       <div className="grid grid-cols-2 gap-2">
-        <button className="bg-white text-gray-900 font-semibold px-5 py-2 rounded-lg hover:bg-gray-200 transition">
+        <Link
+          to="/signup"
+          className="bg-white text-gray-900 font-semibold px-5 py-2 rounded-lg hover:bg-gray-200 transition text-center"
+        >
           Sign Up
-        </button>
-        <button className="bg-white text-gray-900 font-semibold px-5 py-2 rounded-lg hover:bg-gray-200 transition">
+        </Link>
+        <Link
+          to="/login"
+          className="bg-white text-gray-900 font-semibold px-5 py-2 rounded-lg hover:bg-gray-200 transition text-center"
+        >
           Login
-        </button>
+        </Link>
       </div>
     </nav>
   );
