@@ -6,6 +6,7 @@ import Hero from "./components/Hero";
 import ProductsSection from "./components/ProductsSection";
 import Footer from "./components/Footer";
 import Products from "./pages/Products";
+import ProductDetails from "./pages/ProductDetails";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
       </Routes>
       <main className="flex-grow">
         <Routes>
+          <Route path="/products/:id" element={<ProductDetails />} />
           <Route
             path="/"
             element={
@@ -25,7 +27,8 @@ function App() {
                 <ProductsSection />
               </>
             }
-          />
+          />Product Details Page
+Product ID: undefined
 
           {/* صفحة المنتجات */}
           <Route path="/products" element={<Products />} />

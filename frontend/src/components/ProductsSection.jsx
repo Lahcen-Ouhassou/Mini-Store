@@ -37,10 +37,13 @@ function ProductsSection() {
         <h2 className="text-3xl font-bold text-gray-800 mb-10 text-center">
           Featured Products
         </h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">  {/* grid-cols-1 sm:grid-cols-2 : hada f screen sghira kyban wahd product f screen mtwsta kybano 2 hada responsive */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+          {" "}
+          {/* grid-cols-1 sm:grid-cols-2 : hada f screen sghira kyban wahd product f screen mtwsta kybano 2 hada responsive */}
           {products.map((product) => (
             <ProductCard
               key={product.id}
+              id={product.id}
               image={product.image}
               title={product.title}
               price={product.price}
