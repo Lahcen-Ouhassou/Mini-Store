@@ -27,8 +27,7 @@ function App() {
                 <ProductsSection />
               </>
             }
-          />Product Details Page
-Product ID: undefined
+          />
 
           {/* صفحة المنتجات */}
           <Route path="/products" element={<Products />} />
