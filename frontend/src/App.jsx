@@ -1,4 +1,6 @@
 import { Routes, Route } from "react-router-dom";
+import Login from "./pages/Login";
+import Signup from "./pages/Signup";
 import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
 import ProductsSection from "./components/ProductsSection";
@@ -9,10 +11,12 @@ function App() {
   return (
     <div className="min-h-screen bg-gray-100 flex flex-col">
       <Navbar />
-
+      <Routes>
+        <Route path="/signup" element={<Signup />} />
+        <Route path="/login" element={<Login />} />
+      </Routes>
       <main className="flex-grow">
         <Routes>
-          {/* الصفحة الرئيسية */}
           <Route
             path="/"
             element={
