@@ -27,6 +27,7 @@ function ProductCard({ id, image, title, price, description }) {
         <button className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition">
           Add to Cart
         </button>
+        
       </div>
     </div>
   );
