@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 function ProductCard({ id, image, title, price, description }) {
   return (
     <div className="bg-white shadow-md rounded-xl p-4 hover:shadow-lg transition duration-300 flex flex-col">
-      <Link to={`/products/${id}`}>
+      <Link to={`/products-details/${id}`}>
         <img
           src={image}
           alt={title}
@@ -18,7 +18,7 @@ function ProductCard({ id, image, title, price, description }) {
 
       <div className="mt-auto flex justify-between items-center">
         <Link
-          to={`/products/${id}`}
+          to={`/products-details/${id}`}
           className="text-blue-600 font-medium hover:underline"
         >
           View Details
@@ -27,7 +27,6 @@ function ProductCard({ id, image, title, price, description }) {
         <button className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition">
           Add to Cart
         </button>
-        
       </div>
     </div>
   );
