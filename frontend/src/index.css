@@ -14,3 +14,8 @@
   font-synthesis: none;
   text-rendering: optimizeLegibility;
 }
+body {
+  background-color: #f9fafb;
+  color: #111827;
+  font-family: "Inter", sans-serif;
+}
