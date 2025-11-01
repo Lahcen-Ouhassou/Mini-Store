@@ -18,7 +18,7 @@ function App() {
       </Routes>
       <main className="flex-grow">
         <Routes>
-          <Route path="/products/:id" element={<ProductDetails />} />
+          <Route path="/products-details/:id" element={<ProductDetails />} />
           <Route
             path="/"
             element={
@@ -32,7 +32,6 @@ function App() {
           {/* صفحة المنتجات */}
           <Route path="/products" element={<Products />} />
 
-          {/* صفحات أخرى (فارغة الآن، نزيدهم من بعد) */}
           <Route
             path="/about"
             element={
