@@ -1,0 +1,30 @@
+[
+  {
+    "id": 1,
+    "title": "Wireless Headphones",
+    "price": 49.99,
+    "image": "/src/assets/headphones.jpg",
+    "description": "Comfortable over-ear headphones with long battery life."
+  },
+  {
+    "id": 2,
+    "title": "Smart Watch",
+    "price": 79.99,
+    "image": "/src/assets/watch.jpg",
+    "description": "Track your fitness and notifications with style."
+  },
+  {
+    "id": 3,
+    "title": "Bluetooth Speaker",
+    "price": 39.99,
+    "image": "/src/assets/speaker.jpg",
+    "description": "Portable speaker with deep bass and waterproof design."
+  },
+  {
+    "id": 4,
+    "title": "Gaming Mouse",
+    "price": 29.99,
+    "image": "/src/assets/mouse.jpg",
+    "description": "Ergonomic mouse with RGB lighting and fast response."
+  }
+]
