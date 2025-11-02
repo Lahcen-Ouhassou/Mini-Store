@@ -1,44 +1,59 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { ShoppingCart } from "lucide-react";
 
 function Navbar() {
   return (
-    <nav className="bg-gray-900 text-white px-8 py-4 flex justify-between items-center shadow-md">
+    <nav className="bg-white shadow-md py-4 px-8 flex justify-between items-center">
       {/* Logo */}
-      <Link to="/" className="text-2xl font-bold text-white">
+      <Link to="/" className="text-2xl font-bold text-blue-600">
         MiniStore
       </Link>
 
-      {/* Links */}
-      <div className="grid grid-cols-4 content-center gap-20">
-        <Link to="/" className="hover:text-blue-400 transition">
+      {/* Main Links */}
+      <div className="hidden md:flex items-center gap-6">
+        <Link to="/" className="text-gray-700 hover:text-blue-600">
           Home
         </Link>
-        <Link to="/products" className="hover:text-blue-400 transition">
+        <Link to="/products" className="text-gray-700 hover:text-blue-600">
           Products
         </Link>
-        <Link to="/about" className="hover:text-blue-400 transition">
-          About Me
+        <Link to="/about" className="text-gray-700 hover:text-blue-600">
+          About
         </Link>
-        <Link to="/contact" className="hover:text-blue-400 transition">
+        <Link to="/contact" className="text-gray-700 hover:text-blue-600">
           Contact
         </Link>
       </div>
 
-      {/* Login Buttons */}
-      {/* Login Buttons */}
-      <div className="grid grid-cols-2 gap-2">
+      {/* Right side: Auth + Cart */}
+      <div className="flex items-center gap-5">
+        {/* Sign Up & Login buttons */}
+        <div className="grid grid-cols-2 gap-2">
+          <Link
+            to="/signup"
+            className="bg-white border border-gray-300 text-gray-900 font-semibold px-5 py-2 rounded-lg hover:bg-gray-100 transition text-center"
+          >
+            Sign Up
+          </Link>
+          <Link
+            to="/login"
+            className="bg-blue-600 text-white font-semibold px-5 py-2 rounded-lg hover:bg-blue-700 transition text-center"
+          >
+            Login
+          </Link>
+        </div>
+
+        {/* Cart Icon */}
         <Link
-          to="/signup"
-          className="bg-white text-gray-900 font-semibold px-5 py-2 rounded-lg hover:bg-gray-200 transition text-center"
+          to="/cart"
+          className="relative flex items-center text-gray-700 hover:text-blue-600"
         >
-          Sign Up
-        </Link>
-        <Link
-          to="/login"
-          className="bg-white text-gray-900 font-semibold px-5 py-2 rounded-lg hover:bg-gray-200 transition text-center"
-        >
-          Login
+          <ShoppingCart size={26} />
+          {/* عدد المنتجات (مؤقتًا ثابت، وغادي نربطوه بالـ Context) */}
+          <span className="absolute -top-2 -right-2 bg-blue-600 text-white text-xs rounded-full px-1">
+            2
+          </span>
         </Link>
       </div>
     </nav>
