@@ -1,10 +1,14 @@
 import { Routes, Route } from "react-router-dom";
-import Login from "./pages/Login";
-import Signup from "./pages/Signup";
+
+// 🧩 Components
 import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
 import ProductsSection from "./components/ProductsSection";
 import Footer from "./components/Footer";
+
+// 📄 Pages
+import Login from "./pages/Login";
+import Signup from "./pages/Signup";
 import Products from "./pages/Products";
 import ProductDetails from "./pages/ProductDetails";
 import Cart from "./pages/Cart";
@@ -12,18 +16,14 @@ import Checkout from "./pages/Checkout";
 
 function App() {
   return (
-    <div className="min-h-screen bg-gray-100 flex flex-col">
+    <div className="min-h-screen flex flex-col bg-gray-100 text-gray-900">
+      {/* Navbar ثابتة */}
       <Navbar />
-      <Routes>
-        <Route path="/signup" element={<Signup />} />
-        <Route path="/login" element={<Login />} />
-      </Routes>
+
+      {/* Routes */}
       <main className="flex-grow">
         <Routes>
-          <Route path="/cart" element={<Cart />} />
-          <Route path="/Checkout" element={<Checkout />} />
-
-          <Route path="/products-details/:id" element={<ProductDetails />} />
+          {/* الصفحة الرئيسية */}
           <Route
             path="/"
             element={
@@ -34,19 +34,31 @@ function App() {
             }
           />
 
-          {/* صفحة المنتجات */}
-          <Route path="/products" element={<Products />} />
+          {/* صفحات المستخدم */}
+          <Route path="/signup" element={<Signup />} />
+          <Route path="/login" element={<Login />} />
 
+          {/* المنتجات */}
+          <Route path="/products" element={<Products />} />
+          <Route path="/products-details/:id" element={<ProductDetails />} />
+
+          {/* السلة والدفع */}
+          <Route path="/cart" element={<Cart />} />
+          <Route path="/checkout" element={<Checkout />} />
+
+          {/* صفحات إضافية */}
           <Route
             path="/about"
             element={
-              <div className="text-center text-gray-900 py-16">About Page</div>
+              <div className="py-16 text-center text-lg font-semibold">
+                About Page
+              </div>
             }
           />
           <Route
             path="/contact"
             element={
-              <div className="text-center text-gray-900 py-16">
+              <div className="py-16 text-center text-lg font-semibold">
                 Contact Page
               </div>
             }
@@ -54,6 +66,7 @@ function App() {
         </Routes>
       </main>
 
+      {/* Footer */}
       <Footer />
     </div>
   );
