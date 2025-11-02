@@ -8,6 +8,7 @@ import Footer from "./components/Footer";
 import Products from "./pages/Products";
 import ProductDetails from "./pages/ProductDetails";
 import Cart from "./pages/Cart";
+import Checkout from "./pages/Checkout";
 
 function App() {
   return (
@@ -20,6 +21,8 @@ function App() {
       <main className="flex-grow">
         <Routes>
           <Route path="/cart" element={<Cart />} />
+          <Route path="/Checkout" element={<Checkout />} />
+
           <Route path="/products-details/:id" element={<ProductDetails />} />
           <Route
             path="/"
