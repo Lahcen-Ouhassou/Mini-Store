@@ -34,7 +34,7 @@ function App() {
             }
           />
 
-          {/* صفحات المستخدم */}
+          {/* Login/signup*/}
           <Route path="/signup" element={<Signup />} />
           <Route path="/login" element={<Login />} />
 
