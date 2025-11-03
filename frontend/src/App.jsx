@@ -46,7 +46,7 @@ function App() {
           <Route path="/cart" element={<Cart />} />
           <Route path="/checkout" element={<Checkout />} />
 
-          {/* صفحات إضافية */}
+          {/* About/Contact*/}
           <Route
             path="/about"
             element={
