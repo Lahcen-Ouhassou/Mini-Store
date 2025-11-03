@@ -34,7 +34,7 @@ function App() {
             }
           />
 
-          {/* Login/signup*/}
+          {/* Login/Signup*/}
           <Route path="/signup" element={<Signup />} />
           <Route path="/login" element={<Login />} />
 
@@ -42,7 +42,7 @@ function App() {
           <Route path="/products" element={<Products />} />
           <Route path="/products-details/:id" element={<ProductDetails />} />
 
-          {/* السلة والدفع */}
+          {/* Cart/Checkout*/}
           <Route path="/cart" element={<Cart />} />
           <Route path="/checkout" element={<Checkout />} />
 
