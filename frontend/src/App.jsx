@@ -12,7 +12,7 @@ import Signup from "./pages/Signup";
 import Products from "./pages/Products";
 import ProductDetails from "./pages/ProductDetails";
 import Cart from "./pages/Cart";
-import Checkout from "./pages/Checkout";
+import Checkout from "./pages/Checkout"; 
 
 function App() {
   return (
