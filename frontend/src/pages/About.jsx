@@ -2,7 +2,7 @@ import React from "react";
 
 function About() {
   return (
-    <section className="min-h-screen bg-gray-85 flex flex-col items-center justify-center px-6 py-16 text-gray-800">
+    <section className="min-h-screen bg-gray-60 flex flex-col items-center justify-center px-6 py-16 text-gray-800">
       <div className="max-w-3xl text-center">
         <h1 className="text-4xl font-bold mb-6 text-gray-900">
           About Mini-Store
