@@ -1,156 +1,113 @@
-import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import React from "react";
+import { Link } from "react-router-dom";
 
 const Checkout = () => {
-  const navigate = useNavigate();
-  const [order, setOrder] = useState({
-    name: "",
-    email: "",
-    address: "",
-    phone: "",
-    payment: "cod", // Cash on Delivery by default
-  });
-
+  // مثال مؤقت للمنتجات فالكارت (لاحقاً غادي تجي من backend)
   const cartItems = [
-    { id: 1, title: "Wireless Headphones", price: 59.99, quantity: 2 },
-    { id: 2, title: "Smart Watch", price: 99.99, quantity: 1 },
+    { id: 1, name: "Smartphone X", price: 499.99, quantity: 1 },
+    { id: 2, name: "Wireless Headphones", price: 99.99, quantity: 2 },
   ];
 
-  const total = cartItems
-    .reduce((acc, item) => acc + item.price * item.quantity, 0)
-    .toFixed(2);
-
-  const handleChange = (e) => {
-    setOrder({ ...order, [e.target.name]: e.target.value });
-  };
-
-  const handleConfirm = (e) => {
-    e.preventDefault();
-
-    if (!order.name || !order.address || !order.phone) {
-      alert("Please fill all required fields 📝");
-      return;
-    }
-
-    alert("✅ Order confirmed successfully!");
-    navigate("/orders"); // redirect to Orders page after confirmation
-  };
+  const total = cartItems.reduce(
+    (acc, item) => acc + item.price * item.quantity,
+    0
+  );
 
   return (
-    <div className="max-w-5xl mx-auto px-6 py-10">
-      <h1 className="text-3xl font-bold mb-8 text-gray-800">🧾 Checkout</h1>
-
-      <div className="grid md:grid-cols-2 gap-10">
-        {/* Left Side: Form */}
-        <form
-          onSubmit={handleConfirm}
-          className="bg-white p-6 rounded-xl shadow-md space-y-4"
-        >
-          <h2 className="text-xl font-semibold mb-4 text-gray-800">
-            Shipping Information
+    <div className="bg-gray-50 min-h-screen py-12 px-4">
+      <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
+        {/* ✅ اليسار: form ديال المعلومات */}
+        <div className="md:col-span-2 bg-white p-6 rounded-2xl shadow-sm">
+          <h2 className="text-2xl font-semibold mb-4 text-gray-800">
+            Checkout
           </h2>
-
-          <input
-            type="text"
-            name="name"
-            placeholder="Full Name"
-            value={order.name}
-            onChange={handleChange}
-            className="w-full border border-gray-300 rounded-lg px-4 py-2"
-            required
-          />
-
-          <input
-            type="email"
-            name="email"
-            placeholder="Email Address"
-            value={order.email}
-            onChange={handleChange}
-            className="w-full border border-gray-300 rounded-lg px-4 py-2"
-          />
-
-          <input
-            type="text"
-            name="phone"
-            placeholder="Phone Number"
-            value={order.phone}
-            onChange={handleChange}
-            className="w-full border border-gray-300 rounded-lg px-4 py-2"
-            required
-          />
-
-          <textarea
-            name="address"
-            placeholder="Full Address"
-            value={order.address}
-            onChange={handleChange}
-            className="w-full border border-gray-300 rounded-lg px-4 py-2"
-            rows="3"
-            required
-          ></textarea>
-
-          <h2 className="text-xl font-semibold mt-6 mb-2 text-gray-800">
-            Payment Method
-          </h2>
-          <div className="flex gap-4">
-            <label className="flex items-center gap-2">
+          <form className="space-y-4">
+            <div>
+              <label className="block text-gray-700 font-medium">
+                Full Name
+              </label>
               <input
-                type="radio"
-                name="payment"
-                value="cod"
-                checked={order.payment === "cod"}
-                onChange={handleChange}
+                type="text"
+                placeholder="John Doe"
+                className="w-full p-3 border rounded-lg focus:ring focus:ring-blue-300 outline-none"
               />
-              Cash on Delivery
-            </label>
-
-            <label className="flex items-center gap-2">
+            </div>
+            <div>
+              <label className="block text-gray-700 font-medium">Address</label>
               <input
-                type="radio"
-                name="payment"
-                value="card"
-                checked={order.payment === "card"}
-                onChange={handleChange}
+                type="text"
+                placeholder="123 Main Street"
+                className="w-full p-3 border rounded-lg focus:ring focus:ring-blue-300 outline-none"
               />
-              Credit / Debit Card
-            </label>
-          </div>
+            </div>
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <label className="block text-gray-700 font-medium">City</label>
+                <input
+                  type="text"
+                  placeholder="Agadir"
+                  className="w-full p-3 border rounded-lg focus:ring focus:ring-blue-300 outline-none"
+                />
+              </div>
+              <div>
+                <label className="block text-gray-700 font-medium">
+                  Postal Code
+                </label>
+                <input
+                  type="text"
+                  placeholder="80000"
+                  className="w-full p-3 border rounded-lg focus:ring focus:ring-blue-300 outline-none"
+                />
+              </div>
+            </div>
+            <div>
+              <label className="block text-gray-700 font-medium">
+                Phone Number
+              </label>
+              <input
+                type="text"
+                placeholder="+212 600 000 000"
+                className="w-full p-3 border rounded-lg focus:ring focus:ring-blue-300 outline-none"
+              />
+            </div>
 
-          <button
-            type="submit"
-            className="mt-6 bg-green-600 text-white w-full py-3 rounded-lg hover:bg-green-700 transition"
-          >
-            Confirm Order
-          </button>
-        </form>
+            {/* زر التأكيد */}
+            <button
+              type="submit"
+              className="w-full bg-blue-600 text-white font-semibold py-3 rounded-lg hover:bg-blue-700 transition"
+            >
+              Confirm Order
+            </button>
+          </form>
+        </div>
 
-        {/* Right Side: Order Summary */}
-        <div className="bg-white p-6 rounded-xl shadow-md">
-          <h2 className="text-xl font-semibold mb-4 text-gray-800">
+        {/* ✅ اليمين: ملخص الطلب */}
+        <div className="bg-white p-6 rounded-2xl shadow-sm h-fit">
+          <h3 className="text-xl font-semibold mb-4 text-gray-800">
             Order Summary
-          </h2>
-
-          <div className="divide-y">
+          </h3>
+          <ul className="divide-y divide-gray-200 mb-4">
             {cartItems.map((item) => (
-              <div
+              <li
                 key={item.id}
-                className="flex justify-between py-3 text-gray-700"
+                className="py-3 flex justify-between text-gray-700"
               >
                 <span>
-                  {item.title} × {item.quantity}
+                  {item.name} × {item.quantity}
                 </span>
                 <span>${(item.price * item.quantity).toFixed(2)}</span>
-              </div>
+              </li>
             ))}
+          </ul>
+          <div className="flex justify-between text-lg font-semibold text-gray-900 border-t pt-3">
+            <span>Total:</span>
+            <span>${total.toFixed(2)}</span>
           </div>
 
-          <div className="text-right mt-4">
-            <h3 className="text-xl font-bold text-gray-800">Total: ${total}</h3>
-          </div>
-
+          {/* رجوع للكارت */}
           <Link
             to="/cart"
-            className="text-blue-600 hover:underline mt-4 inline-block"
+            className="block mt-4 text-center text-blue-600 hover:underline"
           >
             ← Back to Cart
           </Link>
