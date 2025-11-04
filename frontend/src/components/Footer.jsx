@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 function Footer() {
   return (
@@ -17,6 +18,9 @@ function Footer() {
           <a href="#" className="hover:text-white transition">
             Contact
           </a>
+          {/* <Link to="/reviews" className="hover:text-white transition">
+            Reviews
+          </Link> */}
         </div>
       </div>
     </footer>
