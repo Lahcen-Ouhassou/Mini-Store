@@ -13,6 +13,7 @@ import Products from "./pages/Products";
 import ProductDetails from "./pages/ProductDetails";
 import Cart from "./pages/Cart";
 import Checkout from "./pages/Checkout";
+import Reviews from "./pages/Reviews";
 
 function App() {
   return (
@@ -20,7 +21,6 @@ function App() {
       {/* Navbar */}
       <Navbar />
 
-      {/* Routes */}
       <main className="flex-grow">
         <Routes>
           {/* Home Page*/}
@@ -33,6 +33,8 @@ function App() {
               </>
             }
           />
+
+          <Route path="/reviews" element={<Reviews />} />
 
           {/* Login/Signup*/}
           <Route path="/signup" element={<Signup />} />
