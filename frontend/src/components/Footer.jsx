@@ -15,7 +15,7 @@ function Footer() {
           <a href="#" className="hover:text-white transition">
             Terms of Service
           </a>
-          <a href="#" className="hover:text-white transition">
+          <a href="/contact" className="hover:text-white transition">
             Contact
           </a>
           {/* <Link to="/reviews" className="hover:text-white transition">
