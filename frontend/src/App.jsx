@@ -15,6 +15,7 @@ import Cart from "./pages/Cart";
 import Checkout from "./pages/Checkout";
 import Reviews from "./pages/Reviews";
 import About from "./pages/About";
+import Contact from "./pages/Contact";
 
 function App() {
   return (
@@ -51,14 +52,7 @@ function App() {
 
           {/* About/Contact*/}
           <Route path="/about" element={<About />} />
-          <Route
-            path="/contact"
-            element={
-              <div className="py-16 text-center text-lg font-semibold">
-                Contact Page
-              </div>
-            }
-          />
+          <Route path="/contact" element={<Contact />} />
         </Routes>
       </main>
 
