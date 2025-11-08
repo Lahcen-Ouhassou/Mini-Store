@@ -16,6 +16,7 @@ import Checkout from "./pages/Checkout";
 import Reviews from "./pages/Reviews";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
+import AdminDashboard from "./pages/admin/AdminDashboard";
 
 function App() {
   return (
@@ -25,7 +26,7 @@ function App() {
 
       <main className="flex-grow">
         <Routes>
-          {/* Home Page*/}
+          {/* 🏠 Home Page */}
           <Route
             path="/"
             element={
@@ -36,23 +37,36 @@ function App() {
             }
           />
 
+          {/* ⭐ Reviews */}
           <Route path="/reviews" element={<Reviews />} />
 
-          {/* Login/Signup*/}
+          {/* 👤 Auth */}
           <Route path="/signup" element={<Signup />} />
           <Route path="/login" element={<Login />} />
 
-          {/* Products */}
+          {/* 🛒 Products */}
           <Route path="/products" element={<Products />} />
           <Route path="/products-details/:id" element={<ProductDetails />} />
 
-          {/* Cart/Checkout*/}
+          {/* 🧾 Cart & Checkout */}
           <Route path="/cart" element={<Cart />} />
           <Route path="/checkout" element={<Checkout />} />
 
-          {/* About/Contact*/}
+          {/* ℹ️ About & Contact */}
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
+
+          {/* ⚙️ Admin Dashboard */}
+          <Route path="/admin" element={<AdminDashboard />}>
+            <Route index element={<div>Welcome to the Admin Dashboard</div>} />
+            <Route
+              path="products"
+              element={<div>Products Management Page</div>}
+            />
+            <Route path="orders" element={<div>Orders Management Page</div>} />
+            <Route path="users" element={<div>Users Management Page</div>} />
+            <Route path="settings" element={<div>Settings Page</div>} />
+          </Route>
         </Routes>
       </main>
 
