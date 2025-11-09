@@ -21,57 +21,57 @@ import AdminDashboard from "./pages/admin/AdminDashboard";
 function App() {
   return (
     <div className="min-h-screen flex flex-col bg-gray-100 text-gray-900">
-      {/* Navbar */}
-      <Navbar />
+      <Routes>
+        {/* 🌍 User Layout */}
+        <Route
+          path="/*"
+          element={
+            <>
+              <Navbar />
+              <main className="flex-grow">
+                <Routes>
+                  {/* 🏠 Home Page */}
+                  <Route
+                    path="/"
+                    element={
+                      <>
+                        <Hero />
+                        <ProductsSection />
+                      </>
+                    }
+                  />
 
-      <main className="flex-grow">
-        <Routes>
-          {/* 🏠 Home Page */}
-          <Route
-            path="/"
-            element={
-              <>
-                <Hero />
-                <ProductsSection />
-              </>
-            }
-          />
+                  {/* ⭐ Reviews */}
+                  <Route path="/reviews" element={<Reviews />} />
 
-          {/* ⭐ Reviews */}
-          <Route path="/reviews" element={<Reviews />} />
+                  {/* 👤 Auth */}
+                  <Route path="/signup" element={<Signup />} />
+                  <Route path="/login" element={<Login />} />
 
-          {/* 👤 Auth */}
-          <Route path="/signup" element={<Signup />} />
-          <Route path="/login" element={<Login />} />
+                  {/* 🛒 Products */}
+                  <Route path="/products" element={<Products />} />
+                  <Route
+                    path="/products-details/:id"
+                    element={<ProductDetails />}
+                  />
 
-          {/* 🛒 Products */}
-          <Route path="/products" element={<Products />} />
-          <Route path="/products-details/:id" element={<ProductDetails />} />
+                  {/* 🧾 Cart & Checkout */}
+                  <Route path="/cart" element={<Cart />} />
+                  <Route path="/checkout" element={<Checkout />} />
 
-          {/* 🧾 Cart & Checkout */}
-          <Route path="/cart" element={<Cart />} />
-          <Route path="/checkout" element={<Checkout />} />
+                  {/* ℹ️ About & Contact */}
+                  <Route path="/about" element={<About />} />
+                  <Route path="/contact" element={<Contact />} />
+                </Routes>
+              </main>
+              <Footer />
+            </>
+          }
+        />
 
-          {/* ℹ️ About & Contact */}
-          <Route path="/about" element={<About />} />
-          <Route path="/contact" element={<Contact />} />
-
-          {/* ⚙️ Admin Dashboard */}
-          <Route path="/admin" element={<AdminDashboard />}>
-            <Route index element={<div>Welcome to the Admin Dashboard</div>} />
-            <Route
-              path="products"
-              element={<div>Products Management Page</div>}
-            />
-            <Route path="orders" element={<div>Orders Management Page</div>} />
-            <Route path="users" element={<div>Users Management Page</div>} />
-            <Route path="settings" element={<div>Settings Page</div>} />
-          </Route>
-        </Routes>
-      </main>
-
-      {/* Footer */}
-      <Footer />
+        {/* ⚙️ Admin Layout */}
+        <Route path="/admin/*" element={<AdminDashboard />} />
+      </Routes>
     </div>
   );
 }
