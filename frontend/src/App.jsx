@@ -18,6 +18,9 @@ import About from "./pages/About";
 import Contact from "./pages/Contact";
 import AdminDashboard from "./pages/admin/AdminDashboard";
 
+import AdminLogin from "./pages/admin/AdminLogin";
+import AdminSignup from "./pages/admin/AdminSignup";
+
 function App() {
   return (
     <div className="min-h-screen flex flex-col bg-gray-100 text-gray-900">
@@ -68,6 +71,9 @@ function App() {
             </>
           }
         />
+        {/* ⚙️ Admin Auth (before admin dashboard) */}
+        <Route path="/admin/login" element={<AdminLogin />} />
+        <Route path="/admin/signup" element={<AdminSignup />} />
 
         {/* ⚙️ Admin Layout */}
         <Route path="/admin/*" element={<AdminDashboard />} />
@@ -77,4 +83,3 @@ function App() {
 }
 
 export default App;
- 
