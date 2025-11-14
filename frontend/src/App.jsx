@@ -17,6 +17,7 @@ import Reviews from "./pages/Reviews";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
 import AdminDashboard from "./pages/admin/AdminDashboard";
+import Overview from "./pages/admin/Overview";
 
 import AdminLogin from "./pages/admin/AdminLogin";
 import AdminSignup from "./pages/admin/AdminSignup";
@@ -77,6 +78,7 @@ function App() {
 
         {/* ⚙️ Admin Layout */}
         <Route path="/admin/*" element={<AdminDashboard />} />
+        <Route path="/admin/Overview" element={<Overview />} />
       </Routes>
     </div>
   );
