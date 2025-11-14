@@ -7,7 +7,7 @@ const AdminSidebar = () => {
       <h2 className="text-lg font-semibold mb-6">Dashboard Menu</h2>
       <nav className="flex flex-col space-y-3">
         <Link
-          to="/admin"
+          to="/admin/overview"
           className="hover:bg-gray-700 px-3 py-2 rounded transition"
         >
           Overview
