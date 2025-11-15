@@ -1,6 +1,6 @@
 import { Routes, Route } from "react-router-dom";
-import AdminSidebar from "./AdminSidebar";
-import AdminNavbar from "./AdminNavbar";
+import AdminSidebar from "../../components/admin/AdminSidebar";
+import AdminNavbar from "../../components/admin/AdminNavbar";
 
 // Pages
 import Overview from "./Overview";
